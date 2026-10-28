@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ателье «Крой&amp;стиль» · концепт сайта</title>
+<meta name="description" content="Концепт сайта ателье «Крой&amp;стиль» в Краснодаре: подгонка, ремонт и пошив одежды на Домбайской, 63. Демо, не официальный сайт.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Сайт для «Крой&amp;стиль»">
+<meta property="og:description" content="Подгонка по фигуре, ремонт и пошив. Цена и срок по фото в MAX, примерка перед выдачей, как найти ателье.">
+<meta property="og:image" content="https://alexandrlidev.github.io/kroy-stil-demo/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://alexandrlidev.github.io/kroy-stil-demo/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--choc:#3B2620;--choc-2:#4E342B;--caramel:#C9923F;--caramel-d:#A87526;--pearl:#ECEBEE;--pearl-2:#F6F5F7;--white:#fff;--ink:#231A17;--muted:#6E6762;--line:#DCD9DE;--ok:#2E7D4F;--bad:#B5382C;--r:18px;--shadow:0 18px 40px -22px rgba(59,38,32,.45)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--pearl);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+a{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.serif{font-family:"Tenor Sans",Manrope,sans-serif;font-weight:400;letter-spacing:-.01em;line-height:1.08}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--caramel-d)}
+.eyebrow:before{content:"";width:26px;height:2px;background:var(--caramel)}
+
+.ribbon{background:var(--ink);color:#d8d0ca;font-size:13px;padding:8px 0}
+.ribbon .wrap{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.ribbon b{color:#E2B567}
+.ribbon a{color:#fff;font-weight:700}
+
+header.top{position:sticky;top:0;z-index:50;background:rgba(246,245,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo .seal{width:42px;height:42px;border-radius:50%;background:#fff;border:2px solid var(--choc);display:grid;place-items:center;color:var(--choc);flex:none}
+.logo .nm{font-family:"Tenor Sans";font-size:18px;letter-spacing:.14em;text-transform:uppercase;line-height:1}
+.logo .nm small{display:block;font-family:Manrope;font-size:10px;letter-spacing:.22em;color:var(--muted);margin-top:4px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:6px 12px;border-radius:99px;background:#fff;border:1px solid var(--line);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(46,125,79,.15)}
+.dot.closed{background:var(--bad);box-shadow:0 0 0 4px rgba(181,56,44,.15)}
+nav.links{display:flex;gap:22px;font-weight:600;font-size:15px}
+nav.links a{text-decoration:none}
+nav.links a:hover{color:var(--caramel-d)}
+.sp{flex:1}
+.phone{font-weight:700;text-decoration:none;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .15s,background .15s,color .15s}
+.btn:active{transform:translateY(1px)}
+.btn-choc{background:var(--choc);color:#fff}.btn-choc:hover{background:var(--choc-2)}
+.btn-car{background:var(--caramel);color:var(--ink)}.btn-car:hover{background:#D9A453}
+.btn-line{border:1.5px solid var(--choc);color:var(--choc)}.btn-line:hover{background:var(--choc);color:#fff}
+.btn-sm{padding:9px 16px;font-size:15px}
+
+/* hero: arch mirror + fitting chooser */
+.hero{padding:44px 0 30px}
+.hero-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:48px;align-items:center}
+.mirror{position:relative;border-radius:999px 999px 26px 26px;overflow:hidden;aspect-ratio:3/4;background:#ddd;border:10px solid #fff;box-shadow:var(--shadow);outline:1px solid var(--line)}
+.mirror img{width:100%;height:100%;object-fit:cover}
+.mirror .lbl{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);background:rgba(255,255,255,.94);border-radius:99px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap;color:var(--choc)}
+.mirror-wrap{position:relative}
+.hang{position:absolute;right:-14px;top:30%;background:var(--caramel);color:var(--ink);border-radius:8px 14px 14px 8px;padding:12px 16px 12px 26px;font-size:14px;font-weight:600;box-shadow:var(--shadow);max-width:210px;transform:rotate(3deg)}
+.hang:before{content:"";position:absolute;left:9px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--pearl)}
+.hang b{display:block;font-size:16px}
+.hero h1{font-size:clamp(40px,5.4vw,68px);margin:16px 0 16px}
+.hero h1 i{font-style:normal;color:var(--caramel-d)}
+.lead{font-size:18px;color:#433a36;max-width:44ch}
+.picker{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
+.picker .q{font-weight:700;font-size:15px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border-radius:99px;border:1.5px solid var(--line);font-size:14px;font-weight:600;background:var(--pearl-2)}
+.chip[aria-pressed=true]{background:var(--choc);border-color:var(--choc);color:#fff}
+.answer{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.answer .what{font-size:15px;color:#433a36}
+.answer .what b{display:block;color:var(--ink);font-size:16px;margin-bottom:2px}
+.answer .pr{text-align:right;white-space:nowrap}
+.answer .pr b{font-family:"Tenor Sans";font-size:24px;display:block}
+.answer .pr small{color:var(--muted);font-size:12px}
+.picker .btn{margin-top:14px;width:100%}
+.rates{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;font-size:14px;color:var(--muted)}
+.rates span{background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px 12px}
+.rates b{color:var(--ink)}
+
+section{padding:60px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:26px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(30px,3.6vw,44px);margin-top:10px}
+.sec-head p{color:var(--muted);max-width:46ch}
+
+/* how it goes: three fittings */
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.flow div{padding:24px;border-right:1px solid var(--line);position:relative}
+.flow div:last-child{border-right:0}
+.flow .n{font-family:"Tenor Sans";font-size:44px;color:var(--caramel);line-height:1}
+.flow h3{font-size:21px;margin:12px 0 6px}
+.flow p{color:var(--muted);font-size:15px}
+.flow .quote{margin-top:12px;font-size:14px;background:var(--pearl-2);border-left:3px solid var(--caramel);padding:8px 10px;color:#433a36}
+
+/* price tags */
+.tags{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tag{position:relative;background:#fff;border:1px solid var(--line);border-radius:10px 22px 22px 10px;padding:22px 22px 20px 44px;text-align:left;display:flex;flex-direction:column;gap:8px;transition:transform .15s,border-color .15s}
+.tag:before{content:"";position:absolute;left:16px;top:26px;width:12px;height:12px;border-radius:50%;border:2px solid var(--caramel);background:var(--pearl)}
+.tag:hover{transform:translateY(-2px);border-color:var(--choc)}
+.tag h3{font-size:22px}
+.tag p{color:var(--muted);font-size:15px}
+.tag .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:8px}
+.tag .from{font-weight:800;font-size:17px}
+.tag .days{font-size:13px;font-weight:700;color:var(--choc);background:var(--pearl);padding:4px 10px;border-radius:99px;white-space:nowrap}
+.note{font-size:14px;color:var(--muted);margin-top:14px}
+
+/* marketplace + MAX */
+.mp{background:var(--choc);color:#F1E6DA;border-radius:30px;padding:46px;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;position:relative;overflow:hidden}
+.mp:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;border:2px dashed rgba(201,146,63,.35)}
+.mp .eyebrow{color:#E2B567}
+.mp h2{font-size:clamp(30px,3.8vw,46px);color:#fff;margin:12px 0 16px}
+.mp p{font-size:17px;max-width:46ch;color:#E3D6CB}
+.mp ul{list-style:none;margin:20px 0 24px;display:grid;gap:10px}
+.mp li{display:flex;gap:12px;align-items:flex-start}
+.mp li b{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid #E2B567;color:#E2B567;display:grid;place-items:center;font-size:13px}
+.phone-mock{width:100%;max-width:310px;margin:0 auto;background:#F2F0F3;border-radius:30px;padding:12px;border:6px solid #1c1310;color:var(--ink);position:relative;z-index:1}
+.ph-head{display:flex;align-items:center;gap:8px;background:#fff;border-radius:16px;padding:8px 10px;font-size:13px}
+.ph-head .av{width:30px;height:30px;border-radius:50%;background:var(--choc);color:#fff;display:grid;place-items:center;font-family:"Tenor Sans";font-size:12px}
+.chat{display:flex;flex-direction:column;gap:8px;padding:12px 2px;min-height:320px;font-size:13px}
+.msg{max-width:86%;padding:8px 11px;border-radius:14px;opacity:0;transform:translateY(6px);transition:all .35s}
+.msg.show{opacity:1;transform:none}
+.msg.me{align-self:flex-end;background:#E6DDF5}
+.msg.them{align-self:flex-start;background:#fff}
+.msg .thumb{width:120px;height:150px;border-radius:10px;background:url(img/item.jpg) center/cover;margin-bottom:6px}
+.replay{color:#cbb9aa;font-size:13px;text-decoration:underline;margin-top:12px}
+
+/* inside */
+.inside{display:grid;grid-template-columns:1.3fr 1fr 1fr;grid-template-rows:240px 240px;gap:12px}
+.inside figure{position:relative;border-radius:var(--r);overflow:hidden;background:#ddd}
+.inside figure:first-child{grid-row:1/3}
+.inside img{width:100%;height:100%;object-fit:cover}
+.inside figcaption{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:99px;padding:5px 12px;font-size:13px;font-weight:700}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.rev{background:#fff;border-radius:var(--r);padding:22px;border-top:4px solid var(--caramel)}
+.rev .q{font-family:"Tenor Sans";font-size:48px;line-height:.6;color:var(--caramel);height:22px}
+.rev p{margin:8px 0 14px;font-size:16px}
+.rev small{color:var(--muted)}
+.rv-note{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;font-size:14px;color:var(--muted)}
+
+/* where */
+.where{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.moved{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:grid;grid-template-columns:200px 1fr}
+.moved img{width:100%;height:100%;object-fit:cover;min-height:260px}
+.moved .tx{padding:22px;display:flex;flex-direction:column;gap:10px}
+.moved .tx h3{font-size:24px}
+.moved .tx p{color:#433a36;font-size:15px}
+.badge-moved{align-self:flex-start;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:#F6E6CC;color:var(--caramel-d);padding:4px 10px;border-radius:99px}
+.hours{width:100%;border-collapse:collapse;font-size:15px}
+.hours td{padding:6px 0;border-bottom:1px dashed var(--line)}
+.hours td:last-child{text-align:right;font-weight:700}
+.hours tr.today td{color:var(--caramel-d)}
+.info{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:14px;align-content:start}
+#map{height:250px;border-radius:14px;border:1px solid var(--line);z-index:1}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.row span{color:var(--muted)}
+
+footer{background:var(--ink);color:#cfc5bd;padding:44px 0 110px;margin-top:30px}
+footer .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:30px}
+footer .logo .seal{background:transparent;border-color:#E2B567;color:#E2B567}
+footer .logo .nm{color:#fff}
+.demo-box{background:#2E2420;border:1px dashed #6b5a50;border-radius:var(--r);padding:16px;font-size:14px}
+.demo-box b{color:#E2B567}
+footer a{color:#fff}
+
+.overlay{position:fixed;inset:0;background:rgba(35,26,23,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .2s}
+.overlay.show{opacity:1;pointer-events:auto}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%);opacity:0;pointer-events:none;width:min(480px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;background:#fff;border-radius:22px;z-index:110;padding:26px;transition:all .2s}
+.modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.modal h3{font-size:26px;margin-bottom:8px;padding-right:30px}
+.modal p{color:var(--muted)}
+.x{position:absolute;right:12px;top:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center}
+.x:hover{background:var(--pearl)}
+.plist{display:grid;gap:6px;margin-top:14px}
+.plist div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:6px}
+.plist em{font-style:normal;font-size:11px;font-weight:800;color:var(--ok);background:#E6F2EA;border-radius:6px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+.mbar{display:none}
+
+@media (max-width:1000px){
+  .hero-grid,.mp,.where{grid-template-columns:1fr}
+  .mirror-wrap{max-width:380px;margin:0 auto;width:100%}
+  .tags{grid-template-columns:repeat(2,1fr)}
+  .reviews{grid-template-columns:repeat(2,1fr)}
+  .inside{grid-template-columns:1fr 1fr;grid-template-rows:220px 220px 220px}
+  .inside figure:first-child{grid-row:auto;grid-column:1/3}
+  nav.links{display:none}
+  footer .wrap{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  header.top .wrap{height:62px;gap:10px}
+  .phone,.st-long,.hdr-max,.logo .nm small{display:none}
+  .logo .nm{font-size:15px;letter-spacing:.08em}
+  .logo .seal{width:36px;height:36px}
+  .hero{padding:26px 0 10px}
+  .hero-grid{gap:28px}
+  .mirror-wrap{max-width:300px}
+  .hang{right:-6px;max-width:170px;font-size:13px;padding:10px 12px 10px 24px}
+  .lead{font-size:17px}
+  .answer{grid-template-columns:1fr}
+  .answer .pr{text-align:left}
+  .flow{grid-template-columns:1fr}
+  .flow div{border-right:0;border-bottom:1px solid var(--line)}
+  .flow div:last-child{border-bottom:0}
+  .tags{grid-template-columns:1fr}
+  .reviews{grid-template-columns:1fr}
+  .inside{grid-template-columns:1fr 1fr;grid-template-rows:200px 160px 160px}
+  .mp{padding:28px 18px;border-radius:24px}
+  .moved{grid-template-columns:1fr}
+  .moved img{min-height:0;height:260px;object-position:center 20%}
+  section{padding:42px 0}
+  .mbar{display:grid;grid-template-columns:repeat(3,1fr);position:fixed;left:10px;right:10px;bottom:10px;z-index:80;background:var(--choc);border-radius:18px;padding:6px;gap:6px;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+  .mbar a,.mbar button{display:flex;flex-direction:column;align-items:center;gap:2px;color:#fff;font-size:12px;font-weight:700;padding:8px 4px;border-radius:13px;text-decoration:none}
+  .mbar .c{background:var(--caramel);color:var(--ink)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="ribbon"><div class="wrap">
+  <span><b>Концепт сайта</b> для «Крой&amp;стиль». Цены для примера.</span>
+  <span>Сделал Александр Ли · <a href="https://t.me/DezmontDeXa" target="_blank" rel="noopener">Telegram</a></span>
+</div></div>
+
+<header class="top"><div class="wrap">
+  <a class="logo" href="#top" aria-label="Ателье Крой и стиль">
+    <span class="seal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 3-1.5 2 1 7H9.5l1-7L9 6z"/><path d="M12 15v5M9 21h6"/></svg></span>
+    <span class="nm">Крой&amp;стиль<small>АТЕЛЬЕ · ГУБЕРНСКИЙ</small></span>
+  </a>
+  <span class="status"><span class="dot" id="dot"></span><span id="stText">…</span></span>
+  <nav class="links"><a href="#how">Как работаем</a><a href="#prices">Цены</a><a href="#photo">Цена по фото</a><a href="#where">Где мы</a></nav>
+  <span class="sp"></span>
+  <a class="phone" href="tel:+79528647943">+7 952 864-79-43</a>
+  <button class="btn btn-choc btn-sm hdr-max" data-max>Написать в MAX</button>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap hero-grid">
+  <div class="mirror-wrap">
+    <div class="mirror"><img src="img/hero.jpg" alt="Ателье Крой и стиль: светящаяся вывеска и швейная машина" fetchpriority="high"><span class="lbl">Домбайская, 63 · 1 этаж</span></div>
+    <div class="hang"><b>Примерка перед выдачей</b>Чтобы вы забрали вещь, которая точно сидит</div>
+  </div>
+  <div>
+    <span class="eyebrow">Ателье в Губернском</span>
+    <h1>Сядет так, будто <i>шили на вас</i></h1>
+    <p class="lead">Подшиваем, ушиваем, меняем молнии, перешиваем и шьём с нуля. Брюки, платья, костюмы, верхняя одежда, мех и кожа.</p>
+    <div class="picker" id="picker">
+      <div class="q">Что нужно подогнать?</div>
+      <div class="chips" id="chips"></div>
+      <div class="answer"><div class="what" id="ansWhat"></div><div class="pr"><b id="ansPr"></b><small id="ansNote"></small></div></div>
+      <button class="btn btn-choc" data-max>Прислать фото вещи в MAX</button>
+    </div>
+    <div class="rates"><span><b>4,9</b> ★ в 2ГИС · 78 оценок</span><span><b>5,0</b> ★ в Яндексе · 72 оценки</span></div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="eyebrow">Как работаем</span><h2>Две примерки и готово</h2></div>
+    <p>Подгонка без сюрпризов: мастер смотрит вещь на вас до работы и после.</p>
+  </div>
+  <div class="flow">
+    <div><span class="n">01</span><h3>Приносите вещь</h3><p>Без записи, в часы работы. Можно сначала прислать фото в MAX и узнать цену.</p></div>
+    <div><span class="n">02</span><h3>Мастер закалывает по фигуре</h3><p>Примеряете, мастер отмечает длину и посадку, называет срок и цену.</p></div>
+    <div><span class="n">03</span><h3>Контрольная примерка</h3><p>Перед выдачей надеваете ещё раз. Если что-то не так, поправим сразу.</p><p class="quote">«Перед выдачей мастер обязательно просил примерку». Из отзыва в 2ГИС</p></div>
+  </div>
+</div></section>
+
+<section id="prices"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="eyebrow">Цены</span><h2>Прейскурант на бирках</h2></div>
+    <p>Нажмите на бирку, чтобы увидеть цены и сроки по каждой работе.</p>
+  </div>
+  <div class="tags" id="tags"></div>
+  <p class="note">Позиции с отметкой «из Яндекса» взяты из вашей карточки в Яндекс Картах, остальные цены для примера.</p>
+</div></section>
+
+<section id="photo"><div class="wrap"><div class="mp">
+  <div>
+    <span class="eyebrow">Цена по фото</span>
+    <h2>Купили онлайн, а сидит не так?</h2>
+    <p>Платье с маркетплейса длинное, брюки велики на размер, у куртки сломалась молния. Не нужно ехать, чтобы просто спросить цену. Сфотографируйте вещь на себе и отправьте в MAX.</p>
+    <ul>
+      <li><b>1</b><span>Нажмите кнопку, откроется чат ателье в MAX.</span></li>
+      <li><b>2</b><span>Пришлите фото: вещь на вас и бирку с размером.</span></li>
+      <li><b>3</b><span>Мастер ответит, что можно сделать, сколько стоит и когда приходить на примерку.</span></li>
+    </ul>
+    <button class="btn btn-car" data-max>Отправить фото в MAX</button>
+    <div><button class="replay" id="replay">Показать ещё раз, как это выглядит</button></div>
+  </div>
+  <div class="phone-mock" aria-label="Пример переписки">
+    <div class="ph-head"><span class="av">КС</span><div><b>Ателье Крой&amp;стиль</b><br><small style="color:#6E6762">MAX</small></div></div>
+    <div class="chat" id="chat">
+      <div class="msg me"><div class="thumb"></div>Здравствуйте! Платье велико в боках, и хочу укоротить на 5 см. Сколько будет?</div>
+      <div class="msg them">Здравствуйте! Ушить по бокам и подшить низ можно. Приходите на примерку, заколем по фигуре.</div>
+      <div class="msg them"><b>Около 1 500 ₽, готово через 2 дня.</b> Мы работаем сегодня до 19:00.</div>
+      <div class="msg me">Отлично, зайду после работы</div>
+    </div>
+  </div>
+</div></div></section>
+
+<section id="inside"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="eyebrow">Ателье внутри</span><h2>Светло, тихо, есть примерочная</h2></div>
+    <p>«Очень уютное ателье», пишут в отзывах. Фото из карточки 2ГИС.</p>
+  </div>
+  <div class="inside">
+    <figure><img src="img/room-dress.jpg" alt="Зал ателье: платье на манекене у камина" loading="lazy"><figcaption>Зал</figcaption></figure>
+    <figure><img src="img/counter.jpg" alt="Стойка приёма заказов" loading="lazy"><figcaption>Приём заказов</figcaption></figure>
+    <figure><img src="img/fitting.jpg" alt="Зона примерки с зеркалом" loading="lazy"><figcaption>Зеркало и примерка</figcaption></figure>
+    <figure><img src="img/mannequin.jpg" alt="Платье на манекене" loading="lazy"><figcaption>Манекен</figcaption></figure>
+    <figure><img src="img/room-mirror.jpg" alt="Вечернее платье в зале ателье" loading="lazy"><figcaption>Вечерние платья</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="reviews"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">Отзывы из 2ГИС</span><h2>Что говорят клиенты</h2></div><p>В отзывах чаще всего благодарят за скорость, аккуратность и мастера Алину.</p></div>
+  <div class="reviews">
+    <div class="rev"><div class="q">“</div><p>Нужно было срочно перешить воротник на костюме. На следующий день, после того как принесла, было готово.</p><small>Элеонора Е., сентябрь 2026</small></div>
+    <div class="rev"><div class="q">“</div><p>Ушивала брюки классические. Сделали всё качественно, в короткий срок.</p><small>Анастасия М., октябрь 2026</small></div>
+    <div class="rev"><div class="q">“</div><p>Постоянно доверяем свои вещи в это прекрасное ателье: подшить брючки, пришить пуговицы, привести в порядок подклад.</p><small>Виктория П., август 2026</small></div>
+    <div class="rev"><div class="q">“</div><p>Очень рад, что попал именно к Алине в ателье. Превосходно выполнила работу, с учётом всех пожеланий.</p><small>Александр Ж., октябрь 2026</small></div>
+  </div>
+</div></section>
+
+<section id="where"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="eyebrow">Где мы</span><h2>Домбайская, 63, первый этаж</h2></div>
+    <p>Ателье переехало в соседний дом, примерно в 50 метрах от старого адреса. Если навигатор ведёт по старому, ищите нас здесь.</p>
+  </div>
+  <div class="where">
+    <div class="moved">
+      <img src="img/facade.jpg" alt="Вход в ателье с вывеской Ателье" loading="lazy">
+      <div class="tx">
+        <span class="badge-moved">Новый адрес</span>
+        <h3>Ищите вывеску «Ателье»</h3>
+        <p>Коричневая вывеска с белыми буквами и значком манекена, стеклянные двери в первом этаже дома.</p>
+        <table class="hours" id="hours">
+          <tr data-d="1"><td>Понедельник</td><td>10:00–19:00</td></tr>
+          <tr data-d="2"><td>Вторник</td><td>10:00–19:00</td></tr>
+          <tr data-d="3"><td>Среда</td><td>10:00–19:00</td></tr>
+          <tr data-d="4"><td>Четверг</td><td>10:00–19:00</td></tr>
+          <tr data-d="5"><td>Пятница</td><td>10:00–19:00</td></tr>
+          <tr data-d="6"><td>Суббота</td><td>10:00–17:00</td></tr>
+          <tr data-d="0"><td>Воскресенье</td><td>10:00–17:00</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="info">
+      <div id="map" aria-label="Карта"></div>
+      <div class="row"><span>Адрес</span><b>Домбайская ул., 63, 1 этаж</b></div>
+      <div class="row"><span>Телефон</span><a href="tel:+79528647943"><b>+7 952 864-79-43</b></a></div>
+      <div class="row"><span>Оплата</span><b>Наличные, перевод</b></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn btn-choc btn-sm" target="_blank" rel="noopener" href="https://yandex.ru/maps/?rtext=~45.07309,39.038416&rtt=pd">Маршрут</a>
+        <a class="btn btn-line btn-sm" target="_blank" rel="noopener" href="https://2gis.ru/krasnodar/firm/70000001088166303">2ГИС</a>
+        <a class="btn btn-line btn-sm" target="_blank" rel="noopener" href="https://yandex.ru/maps/org/kroy_stil/163025086934/">Яндекс Карты</a>
+      </div>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div>
+    <span class="logo"><span class="seal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 3-1.5 2 1 7H9.5l1-7L9 6z"/><path d="M12 15v5M9 21h6"/></svg></span><span class="nm">Крой&amp;стиль</span></span>
+    <p style="margin-top:14px;max-width:42ch">Швейное ателье, ремонт одежды, ателье меха и кожи. Краснодар, Домбайская ул., 63, 1 этаж.</p>
+  </div>
+  <div class="demo-box"><b>Это демо.</b> Сделано, чтобы показать идею: цены на бирках, подгонка по фото в MAX, новый адрес и вход крупно.<br><br>Александр Ли · <a href="https://t.me/DezmontDeXa" target="_blank" rel="noopener">@DezmontDeXa</a> · <a href="tel:+79147765705">+7 914 776-57-05</a></div>
+</div></footer>
+
+<nav class="mbar" aria-label="Быстрые действия">
+  <a href="tel:+79528647943"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Позвонить</a>
+  <button class="c" data-max><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Цена по фото</button>
+  <a href="#where"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Где мы</a>
+</nav>
+
+<div class="overlay" id="ov"></div>
+<div class="modal" id="md" role="dialog" aria-modal="true"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const PICK=[
+ {t:'Брюки, джинсы',w:'Подшить по длине или ушить по поясу',p:'от 500 ₽',n:'подшив, из Яндекса'},
+ {t:'Платье, юбка',w:'Укоротить, ушить по бокам, подогнать по фигуре',p:'от 700 ₽',n:'для примера'},
+ {t:'Пиджак, костюм',w:'Рукава, плечи, воротник, подклад',p:'от 900 ₽',n:'для примера'},
+ {t:'Куртка, пальто',w:'Замена молнии или бегунка, подклад, рукава',p:'от 500 ₽',n:'молния, из Яндекса'},
+ {t:'Шуба, кожа',w:'Подшить, ушить, заменить крючки и петли',p:'от 1 200 ₽',n:'для примера'},
+ {t:'С маркетплейса',w:'Перешить вещь, которая села не так, как на фото',p:'по фото',n:'ответим в MAX'}
+];
+let cur=0;
+function renderPick(){$('#chips').innerHTML=PICK.map((p,i)=>`<button class="chip" aria-pressed="${i===cur}" data-pick="${i}">${p.t}</button>`).join('');const p=PICK[cur];$('#ansWhat').innerHTML=`<b>${p.t}</b>${p.w}`;$('#ansPr').textContent=p.p;$('#ansNote').textContent=p.n}
+renderPick();
+$('#chips').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(b){cur=+b.dataset.pick;renderPick()}});
+
+const Y='<em>из Яндекса</em>';
+const SVC=[
+ {t:'Брюки и джинсы',d:'Подшить, ушить, сузить, заменить молнию.',days:'1–2 дня',from:'от 500 ₽',list:[['Подшив детских брюк '+Y,'500 ₽'],['Подшить брюки','от 600 ₽'],['Подшить джинсы с сохранением шва','от 800 ₽'],['Ушить в поясе','от 700 ₽'],['Замена молнии '+Y,'от 600 ₽']]},
+ {t:'Платья и юбки',d:'Укоротить, ушить по фигуре, перешить посадку.',days:'2–3 дня',from:'от 700 ₽',list:[['Укоротить юбку','от 700 ₽'],['Ушить платье по бокам','от 900 ₽'],['Укоротить вечернее платье','от 1 500 ₽'],['Заменить потайную молнию','от 700 ₽']]},
+ {t:'Пиджаки и костюмы',d:'Рукава, плечи, воротник, подклад.',days:'2–4 дня',from:'от 900 ₽',list:[['Укоротить рукава','от 1 200 ₽'],['Перешить воротник','от 1 000 ₽'],['Ушить пиджак по спинке','от 1 500 ₽'],['Заменить подклад','от 2 500 ₽']]},
+ {t:'Куртки и пальто',d:'Молнии, бегунки, подклад, манжеты.',days:'1–3 дня',from:'от 500 ₽',list:[['Замена собачки '+Y,'от 500 ₽'],['Замена молнии '+Y,'от 600 ₽'],['Ремонт подклада','от 800 ₽'],['Укоротить рукава','от 1 500 ₽']]},
+ {t:'Мех и кожа',d:'Шубы, дублёнки, кожаные куртки.',days:'3–5 дней',from:'от 1 200 ₽',list:[['Подшить шубу','от 2 500 ₽'],['Зашить карман или разрыв','от 1 200 ₽'],['Заменить крючки и петли','от 800 ₽'],['Молния на кожаной куртке','от 1 500 ₽']]},
+ {t:'Пошив на заказ',d:'Юбки, платья, костюмы, детская одежда.',days:'от 7 дней',from:'от 5 000 ₽',list:[['Пошив одежды '+Y,'от 5 000 ₽'],['Юбка по вашим меркам','от 5 000 ₽'],['Платье по вашей модели','от 9 000 ₽']]}
+];
+$('#tags').innerHTML=SVC.map((s,k)=>`<button class="tag" data-svc="${k}"><h3>${s.t}</h3><p>${s.d}</p><div class="foot"><span class="from">${s.from}</span><span class="days">${s.days}</span></div></button>`).join('');
+
+const ov=$('#ov'),md=$('#md');
+function openModal(h){md.innerHTML='<button class="x" data-close aria-label="Закрыть"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button>'+h;md.classList.add('show');ov.classList.add('show')}
+function closeAll(){md.classList.remove('show');ov.classList.remove('show')}
+ov.onclick=closeAll;md.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeAll()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+function maxModal(){openModal(`<h3>Чат ателье в MAX</h3><p>В рабочей версии кнопка сразу открывает чат ателье в MAX с готовым текстом «Здравствуйте! Хочу узнать цену подгонки, отправляю фото». Остаётся прикрепить фото вещи.</p><p style="margin-top:10px">В концепте переход отключён, чтобы ателье не писали с демо-страницы.</p><button class="btn btn-choc" style="margin-top:18px" data-close>Понятно</button>`)}
+document.addEventListener('click',e=>{if(e.target.closest('[data-max]')){maxModal();return}
+  const b=e.target.closest('[data-svc]');if(!b)return;const s=SVC[b.dataset.svc];
+  openModal(`<h3>${s.t}</h3><p>${s.d} Обычный срок: ${s.days}.</p><div class="plist">${s.list.map(([a,p])=>`<div><span>${a}</span><b>${p}</b></div>`).join('')}</div><p style="margin-top:14px">Точную цену мастер назовёт на примерке или по фото.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px"><button class="btn btn-choc btn-sm" data-max>Цена по фото</button><a class="btn btn-line btn-sm" href="#where" data-close>Где мы</a></div><p style="font-size:13px;margin-top:12px">Цены без отметки «из Яндекса» для примера.</p>`)});
+
+const HRS={0:[10,17],1:[10,19],2:[10,19],3:[10,19],4:[10,19],5:[10,19],6:[10,17]};
+const nowKrd=()=>{const p=new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Moscow',hour12:false,hour:'2-digit',minute:'2-digit',weekday:'short'}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return {h:+g('hour')%24,m:+g('minute'),d:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(g('weekday'))}};
+function status(){const {h,m,d}=nowKrd();const [o,c]=HRS[d];const open=h>=o&&h<c;const left=c*60-(h*60+m);$('#dot').classList.toggle('closed',!open);
+  const nd=(d+1)%7;const nextOpen=h<o?'сегодня в 10:00':'завтра в 10:00';
+  $('#stText').innerHTML=open?(left<=60?`Открыто · закроемся через ${left} мин`:`Открыто<span class="st-long"> · до ${c}:00</span>`):`Закрыто<span class="st-long"> · откроемся ${nextOpen}</span>`;
+  document.querySelectorAll('#hours tr').forEach(r=>r.classList.toggle('today',+r.dataset.d===d))}
+status();setInterval(status,60000);
+
+function playChat(){const ms=[...document.querySelectorAll('#chat .msg')];ms.forEach(m=>m.classList.remove('show'));ms.forEach((m,i)=>setTimeout(()=>m.classList.add('show'),400+i*900))}
+let played=false;new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&!played){played=true;playChat()}}),{threshold:.4}).observe($('#chat'));
+$('#replay').onclick=playChat;
+
+try{const ll=[45.07309,39.038416];const map=L.map('map',{scrollWheelZoom:false}).setView(ll,16);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
+  L.marker(ll,{icon:L.divIcon({className:'',html:'<div style="background:#3B2620;border:3px solid #C9923F;width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"></div>',iconSize:[30,30],iconAnchor:[15,30]})}).addTo(map).bindPopup('<b>Крой&amp;стиль</b><br>Домбайская, 63, 1 этаж')}catch(e){$('#map').innerHTML='<p style="padding:20px;color:#6E6762">Карта не загрузилась</p>'}
+</script>
+</body>
+</html>
